@@ -1,11 +1,12 @@
 //Variables
 const btns = document.querySelectorAll('.btn');
-const resultadoPantalla = document.querySelector('.calc__resultado');
+const numero2 = document.querySelector('.calc__resultado .numero2');
+const numero1 = document.querySelector('.calc__resultado .numero1');
 const operador = document.querySelectorAll('.signos');
 
 //Eventos
 btns.forEach(btn => {
-    btn.addEventListener('click', leerNumero);
+    btn.addEventListener('click', leerNum);
 })
 operador.forEach(operador => {
     operador.addEventListener('click', leerOperador);
@@ -26,41 +27,79 @@ class operacion {
     }
 
 }
+const str = '123++';
 
-class UI {
-    constructor (resultadoPantalla) {
-        this.resultadoPantalla = resultadoPantalla;
-        this.operacion = new operacion();
-        this.operacion = '';
-        this.resultado = '';
-        this.operador = {
-            sumar: '+',
-            restar: '-',
-            multiplicar: 'x',
-            dividir: '÷'
-        }
-    }
+const numero = str.replace(/\D/g, "");
 
-    calcular(operador) {
-        this.operacion !== 'igual' && this.operar();
-        this.operacion = operador;
-    }
+let oper;
 
-    mostrarNumero(num) {
-        this.resultado += num;
-        this.resultadoPantalla.textContent = `${this.resultado} ${this.operador[this.operacion] || ''}`; 
-    }
+// class UI {
+//     constructor (numero2) {
+//         this.numero2 = numero2;
+//         this.operacion = new operacion();
+//         this.operacion = '';
+//         this.resultado = '';
+//         this.operator = {
+//             sumar: '+',
+//             restar: '-',
+//             multiplicar: 'x',
+//             dividir: '÷'
+//         }
+//     }
 
-    operar() {
-        this.operacion = operador;
-    }
-}
+//     calcular(operador) {
+//         this.operacion !== 'igual' && this.operar();
+//         this.operacion = operador;
 
-const ui = new UI(resultadoPantalla);
+//         if(this.operacion == 'igual') {
+            
+//         }
+//     }
+
+//     mostrarNumero(num) {
+//         this.resultado += num;
+//         this.numero2.textContent = `${this.resultado} ${this.operator[this.operacion] || ''}`; 
+//     }
+
+//     operar() {
+//         this.operacion = operador;
+//     }
+// }
+
+// const ui = new UI(numero2);
 
 function leerNumero(e) {
-    ui.mostrarNumero(e.target.textContent);
+    // ui.mostrarNumero(e.target.textContent);
 }
 function leerOperador(e) {
-    ui.calcular(e.target.value);
+    // ui.calcular(e.target.value);
+}
+
+
+function leerNum(e) {
+    const numero = e.target.textContent;
+    if(!e.target.value) {
+        numero2.textContent += numero;
+    }
+    if(e.target.value && e.target.value !== 'igual') {
+        operar(+numero2.textContent, e.target.textContent);
+        numero2.innerHTML = '';
+    } 
+    if(e.target.value == 'igual') {
+        const num1 = +numero1.textContent.replace(/\D/g, "");
+        const num2 = +numero2.textContent;
+        console.log(num1);
+        console.log(num2);
+    }
+}
+
+function leerOperador(e) {
+    
+}
+
+function operar(num1, operador) {
+    oper = new operacion();
+    numero1.textContent = `${+num1} ${operador}`;
+
+    // const resultado = operacion.sumar(num1, numero2.textContent);
 }
