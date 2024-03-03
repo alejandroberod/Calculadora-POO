@@ -1,5 +1,5 @@
 //Variables
-const btns = document.querySelectorAll('.btn');
+const btns = document.querySelectorAll('.num');
 const numero2 = document.querySelector('.calc__resultado .numero2');
 const numero1 = document.querySelector('.calc__resultado .numero1');
 const operador = document.querySelectorAll('.signos');
@@ -13,93 +13,60 @@ operador.forEach(operador => {
 })
 
 class operacion {
-    sumar(num1, num2) {
-        return num1 + num2;
+    multiplicar(numero1, numero2) {
+        return numero1 * numero2;
     }
-    restar(num1, num2) {
-        return num1 - num2;
+    dividir(numero1, numero2) {
+        return numero1 / numero2;
     }
-    multiplicar(num1, num2) {
-        return num1 * num2;
+    sumar(numero1, numero2) {
+        return numero1 + numero2;
     }
-    dividir(num1, num2) {
-        return num1 / num2;
+    restar(numero1, numero2) {
+        return numero1 - numero2;
     }
-
-}
-const str = '123++';
-
-const numero = str.replace(/\D/g, "");
-
-let oper;
-
-// class UI {
-//     constructor (numero2) {
-//         this.numero2 = numero2;
-//         this.operacion = new operacion();
-//         this.operacion = '';
-//         this.resultado = '';
-//         this.operator = {
-//             sumar: '+',
-//             restar: '-',
-//             multiplicar: 'x',
-//             dividir: '÷'
-//         }
-//     }
-
-//     calcular(operador) {
-//         this.operacion !== 'igual' && this.operar();
-//         this.operacion = operador;
-
-//         if(this.operacion == 'igual') {
-            
-//         }
-//     }
-
-//     mostrarNumero(num) {
-//         this.resultado += num;
-//         this.numero2.textContent = `${this.resultado} ${this.operator[this.operacion] || ''}`; 
-//     }
-
-//     operar() {
-//         this.operacion = operador;
-//     }
-// }
-
-// const ui = new UI(numero2);
-
-function leerNumero(e) {
-    // ui.mostrarNumero(e.target.textContent);
-}
-function leerOperador(e) {
-    // ui.calcular(e.target.value);
 }
 
+class UI {
+    constructor (numero1, numero2) {
+        this.numero1P = numero1;
+        this.numero2P = numero2;
+        this.numero1 = '';
+        this.numero2 = '';
+        this.operacion = new operacion();
+        this.operador = undefined;
+    }
+
+    almacenarNumero(num) {
+        typeof(num) == 'string' && num !== '.' ? (num = +num) : null;
+        num === '.' && this.numero2.includes('.') ? null : (this.numero2 += num, this.numero2P.textContent = this.numero2, this.numero1P.textContent = this.numero1);
+    }
+
+
+
+    operar(tipoOp, signo) {
+        signo == '=' ? signo = '' : null; 
+        this.operador !== 'igual' ? this.calcular() : null;
+        this.operador = tipoOp;
+        this.numero1 = this.numero2 || this.numero1;
+        this.numero2 = '';
+        this.numero1P.textContent = `${this.numero1} ${signo}`; 
+        this.numero2P.textContent = this.numero2; 
+    }
+
+    calcular() {
+        const numero1 = parseFloat(this.numero1);
+        const numero2 = parseFloat(this.numero2);
+        (isNaN(numero2) || isNaN(numero1)) ? null : this.numero2 = this.operacion[this.operador](numero1, numero2);
+    }
+}
+
+const ui = new UI(numero1, numero2);
 
 function leerNum(e) {
-    const numero = e.target.textContent;
-    if(!e.target.value) {
-        numero2.textContent += numero;
-    }
-    if(e.target.value && e.target.value !== 'igual') {
-        operar(+numero2.textContent, e.target.textContent);
-        numero2.innerHTML = '';
-    } 
-    if(e.target.value == 'igual') {
-        const num1 = +numero1.textContent.replace(/\D/g, "");
-        const num2 = +numero2.textContent;
-        console.log(num1);
-        console.log(num2);
-    }
-}
+    ui.almacenarNumero(e.target.textContent);
+};
 
 function leerOperador(e) {
-    
-}
-
-function operar(num1, operador) {
-    oper = new operacion();
-    numero1.textContent = `${+num1} ${operador}`;
-
-    // const resultado = operacion.sumar(num1, numero2.textContent);
+    ui.operar(e.target.value, e.target.textContent);
 }

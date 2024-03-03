@@ -29,6 +29,7 @@ main {
     border: 1px solid #3c4043;
     border-radius: 1rem;
     margin-bottom: 2rem;
+    padding: 1rem;
     color: #e8eaed;
     font-size: 2rem;
     display: flex;
